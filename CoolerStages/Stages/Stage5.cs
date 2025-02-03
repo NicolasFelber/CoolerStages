@@ -7,6 +7,8 @@ namespace CoolerStages
 
         public static void SkyMeadow(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3, Color grassColor)
         {
+            Transform r = GameObject.Find("HOLDER: Randomization").transform;
+            Transform btp = GameObject.Find("PortalDialerEvent").transform.GetChild(0);
             if (terrainMat && detailMat && detailMat2 && detailMat3)
             {
                 MeshRenderer[] meshList = Object.FindObjectsOfType(typeof(MeshRenderer)) as MeshRenderer[];
@@ -50,7 +52,73 @@ namespace CoolerStages
                             renderer.sharedMaterial = detailMat3;
                     }
                 }
+                try
+                {
+                    GameObject.Find("HOLDER: Terrain").transform.GetChild(1).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                    btp.GetChild(0).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                    GameObject.Find("ArtifactFormulaHolderMesh").GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                    GameObject.Find("SM_Stairway").GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                } catch { Debug.LogError("Failed setting specific Material"); }
+                try { GameObject.Find("Plateau 13 (1)").GetComponent<MeshRenderer>().sharedMaterial = terrainMat; } catch { }
+                try
+                {
+                    Transform tallplat = r.GetChild(0);
+                    tallplat.GetChild(0).GetChild(0).gameObject.GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                    tallplat.GetChild(0).GetChild(1).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                    tallplat.GetChild(1).GetChild(0).gameObject.GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                    tallplat.GetChild(1).GetChild(1).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                }
+                catch { Debug.LogError("Error setting Materials in Tall Plateu"); }
+                try
+                {
+                    Transform plat6 = r.GetChild(1);
+                    plat6.GetChild(0).GetChild(0).gameObject.GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                    plat6.GetChild(0).GetChild(1).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                    plat6.GetChild(0).GetChild(2).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                    plat6.GetChild(1).GetChild(0).gameObject.GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                    plat6.GetChild(1).GetChild(11).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                    plat6.GetChild(1).GetChild(13).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                }
+                catch { Debug.LogError("Error setting Materials in Plateu 6"); }
+                try
+                {
+                    Transform plat9 = r.GetChild(2);
+                    plat9.GetChild(0).GetChild(0).gameObject.GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                    plat9.GetChild(0).GetChild(1).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                    plat9.GetChild(0).GetChild(2).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                    plat9.GetChild(1).GetChild(0).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                }
+                catch { Debug.LogError("Error setting Materials in Plateu 9"); }
+                try
+                {
+                    Transform plat11 = r.GetChild(3);
+                    plat11.GetChild(0).GetChild(0).gameObject.GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                }
+                catch { Debug.LogError("Error setting Materials in Plateu 11"); }
+                try
+                {
+                    Transform plat13 = r.GetChild(4);
+                    r.GetChild(4).GetChild(1).GetChild(3).gameObject.GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                }
+                catch { Debug.LogError("Error setting Materials in Plateu 13"); }
+                try
+                {
+                    Transform plat15 = r.GetChild(5);
+                    plat15.GetChild(0).GetChild(0).gameObject.GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                    plat15.GetChild(0).GetChild(10).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                    plat15.GetChild(0).GetChild(11).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                    plat15.GetChild(1).GetChild(0).gameObject.GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                    plat15.GetChild(1).GetChild(1).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                    plat15.GetChild(1).GetChild(2).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                    plat15.GetChild(2).GetChild(0).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
+                }
+                catch { Debug.LogError("Error setting Materials in Plateu 15"); }
             }
+        }
+
+        public static void Roost(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3, Color grassColor)
+        {
+
         }
 
     }

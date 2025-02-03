@@ -30,6 +30,6 @@
   </ItemGroup>
 
  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-   <Exec Command="copy /Y C:\Users\nicol\source\repos\CoolerStages\CoolerStages\bin\Release\netstandard2.1\CoolerStages.dll C:\Users\nicol\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Default\BepInEx\plugins\Nuxlar-CoolerStages" />
+   <Exec Command="copy /Y C:\Users\nicol\source\repos\CoolerStages\CoolerStages\bin\Release\netstandard2.1\CoolerStages.dll C:\Users\nicol\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Many_Mods\BepInEx\plugins\nicof1-CoolerStages_Continued" />
  </Target>
 </Project>
