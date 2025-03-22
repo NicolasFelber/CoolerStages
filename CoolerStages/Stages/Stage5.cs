@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 
 namespace CoolerStages
@@ -5,7 +6,7 @@ namespace CoolerStages
     public class Stage5
     {
 
-        public static void SkyMeadow(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3, Color grassColor)
+        public static void SkyMeadow(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3, UnityEngine.Color grassColor)
         {
             Transform r = GameObject.Find("HOLDER: Randomization").transform;
             Transform btp = GameObject.Find("PortalDialerEvent").transform.GetChild(0);
@@ -20,13 +21,13 @@ namespace CoolerStages
                     {
                         if (meshParent != null)
                         {
-                            if ((meshBase.name.Contains("Plateau") && meshParent.name.Contains("skymeadow_terrain") || meshBase.name.Contains("SMRock") && meshParent.name.Contains("FORMATION")) && renderer.sharedMaterial)
+                            if ((meshBase.name.Contains("Plateau") || meshBase.name.Contains("SMRock") && meshParent.name.Contains("FORMATION")) && renderer.sharedMaterial)
                                 renderer.sharedMaterial = terrainMat;
                             if ((meshBase.name.Contains("SMRock") && meshParent.name.Contains("HOLDER: Spinning Rocks") || meshBase.name.Contains("SMRock") && meshParent.name.Contains("P13") || meshBase.name.Contains("SMPebble") && meshParent.name.Contains("Underground") || meshBase.name.Contains("Boulder") && meshParent.name.Contains("PortalDialerEvent")) && renderer.sharedMaterial)
                                 renderer.sharedMaterial = detailMat;
                             if ((meshBase.name.Contains("SMRock") && meshParent.name.Contains("GROUP: Rocks") || meshBase.name.Contains("SMSpikeBridge") && meshParent.name.Contains("Underground")) && renderer.sharedMaterial)
                                 renderer.sharedMaterial = detailMat2;
-                            if ((meshBase.name.Contains("Terrain") && meshParent.name.Contains("skymeadow_terrain") || meshBase.name.Contains("Plateau Under") && meshParent.name.Contains("Underground")) && renderer.sharedMaterial)
+                            if ((meshBase.name.Contains("Terrain") || meshBase.name.Contains("Plateau Under") && meshParent.name.Contains("Underground")) && renderer.sharedMaterial)
                                 renderer.sharedMaterial = terrainMat;
                         }
                         if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
@@ -116,9 +117,79 @@ namespace CoolerStages
             }
         }
 
-        public static void Roost(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3, Color grassColor)
+        public static void Roost(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3, UnityEngine.Color color)
         {
+            if (terrainMat && detailMat && detailMat2 && detailMat3)
+            {
+                MeshRenderer[] meshList = UnityEngine.Object.FindObjectsOfType(typeof(MeshRenderer)) as MeshRenderer[];
+                foreach (MeshRenderer renderer in meshList)
+                {
+                    GameObject meshBase = renderer.gameObject;
+                    if (meshBase != null)
+                    {
+                        if (meshBase.name.Contains("HRTerrain") && !meshBase.name.Contains("Lava"))
+                            renderer.sharedMaterial = terrainMat;
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial || meshBase.name.Contains("Weed") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
+                        }
+                        if (meshBase.name.Contains("HRRock") && renderer.sharedMaterial)
+                            renderer.sharedMaterial = detailMat;
+                        if (meshBase.name.Contains("HRGroundCover") && renderer.sharedMaterial)
+                            renderer.sharedMaterial = detailMat3;
+                    }
+                }
 
+                MeshRenderer building1 = GameObject.Find("HRSection1").gameObject.GetComponent<MeshRenderer>();
+                if (building1 != null)
+                {
+                    building1.sharedMaterials[0] = detailMat;
+                    building1.sharedMaterials[1] = detailMat2;
+                    building1.sharedMaterials[2] = detailMat3;
+                }
+                MeshRenderer building2 = GameObject.Find("HRSection1").gameObject.GetComponent<MeshRenderer>();
+                if (building2 != null)
+                {
+                    building2.sharedMaterials[0] = detailMat;
+                    building2.sharedMaterials[1] = detailMat2;
+                    building2.sharedMaterials[2] = detailMat3;
+                }
+                MeshRenderer building3 = GameObject.Find("HRSection1").gameObject.GetComponent<MeshRenderer>();
+                if (building3 != null)
+                {
+                    building3.sharedMaterials[0] = detailMat;
+                    building3.sharedMaterials[1] = detailMat2;
+                    building3.sharedMaterials[2] = detailMat3;
+                }
+                MeshRenderer building4 = GameObject.Find("HRSection4").gameObject.GetComponent<MeshRenderer>();
+                if (building4 != null)
+                {
+                    building4.sharedMaterials[0] = detailMat;
+                    building4.sharedMaterials[1] = detailMat2;
+                    building4.sharedMaterials[2] = detailMat3;
+                }
+
+                GameObject camparticles = GameObject.Find("CAMERA PARTICLES: AshParticles");
+                if (camparticles != null) { camparticles.SetActive(false); }
+
+                //GameObject particles = GameObject.Find("Particles");
+                //if (particles != null) { particles.SetActive(false); }
+
+                //MeshRenderer lava = GameObject.Find("HRLava").gameObject.GetComponent<MeshRenderer>();
+                //if (lava) {
+                //    lava.material.SetColor("_Color", color);
+                //}
+                //Renderer terrainlava = GameObject.Find("HRTerrainLava").gameObject.GetComponent<MeshRenderer>();
+                //if (terrainlava)
+                //{
+                //    terrainlava.material.SetColor("_Color", color);
+                //}
+                //Renderer terrainlavacracks = GameObject.Find("HRTerrainLavaCracks").gameObject.GetComponent<MeshRenderer>();
+                //if (terrainlavacracks)
+                //{
+                //    terrainlavacracks.material.SetColor("_Color", color);
+                //}
+            }
         }
 
     }

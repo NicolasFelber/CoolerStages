@@ -66,23 +66,24 @@ namespace CoolerStages
         private static readonly Material verdantDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC2/lakes/Assets/matTLShip.mat").WaitForCompletion();
         private static readonly Material verdantDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC2/lakes/Assets/matTLGVine.mat").WaitForCompletion();
 
+
         private static readonly List<Material[]> themeMaterials1 = new List<Material[]> {
-      new Material[] { verdantTerrainMat, verdantDetailMat, verdantDetailMat2, verdantDetailMat3 },
-      new Material[] { smSimTerrainMat, smSimDetailMat, smSimDetailMat2, smSimtDetailMat3 },
-      new Material[] { danTerrain, danDetail, danDetail2, danDetail3 },
+      new Material[] { verdantTerrainMat, verdantDetailMat, verdantDetailMat2, verdantDetailMat3},
+      new Material[] { smSimTerrainMat, smSimDetailMat, smSimDetailMat2, smSimtDetailMat3},
+      new Material[] {danTerrain, danDetail, danDetail2, danDetail3 },
       new Material[] { ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3 },
-      new Material[] { dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 },
-      new Material[] { gpSimTerrainMat, gpSimDetailMat, gpSimDetailMat2, gpSimDetailMat3 },
-      new Material[] { gooSimTerrainMat, gooSimDetailMat, gooSimDetailMat2, gooSimDetailMat3 },
-      new Material[] { moonTerrainMat, moonDetailMat, moonDetailMat2, moonDetailMat3 },
-      new Material[] { bazaarTerrainMat, bazaarDetailMat, bazaarDetailMat2, bazaarDetailMat3 },
+      new Material[] {dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 },
+      new Material[] {gpSimTerrainMat, gpSimDetailMat, gpSimDetailMat2, gpSimDetailMat3 },
+      new Material[] {gooSimTerrainMat, gooSimDetailMat, gooSimDetailMat2, gooSimDetailMat3 },
+      new Material[] {moonTerrainMat, moonDetailMat, moonDetailMat2, moonDetailMat3 },
+      new Material[] {bazaarTerrainMat, bazaarDetailMat, bazaarDetailMat2, bazaarDetailMat3 },
     };
 
         private static readonly List<Material[]> themeMaterials2 = new List<Material[]> {
-      new Material[] { verdantTerrainMat, verdantDetailMat, verdantDetailMat2, verdantDetailMat3 },
-      new Material[] { danTerrain, danDetail, danDetail2, danDetail3 },
-      new Material[] { ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3 },
-      new Material[] { dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 }
+      new Material[] {verdantTerrainMat, verdantDetailMat, verdantDetailMat2, verdantDetailMat3 },
+      new Material[] {danTerrain, danDetail, danDetail2, danDetail3 },
+      new Material[] {ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3 },
+      new Material[] {dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 }
     };
 
         private System.Random rng;
@@ -107,6 +108,7 @@ namespace CoolerStages
       "moon2",
       "village",
       "villagenight"
+      //"helminthroost"
 };
 
         public static ConfigEntry<bool> enableWinter;
@@ -536,6 +538,9 @@ namespace CoolerStages
                                 AbyssalLighting(lightColor);
                                 if (GameObject.Find("DCPPInTunnels"))
                                     GameObject.Find("DCPPInTunnels").SetActive(false);
+                                break;
+                            case "helminthroost":
+                                Stage5.Roost(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2, mainLight.color);
                                 break;
                             case "skymeadow":
                                 Stage5.SkyMeadow(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2, mainLight.color);
