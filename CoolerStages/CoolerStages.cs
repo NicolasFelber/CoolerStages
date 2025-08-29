@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Rendering.PostProcessing;
 using System.Linq;
 using System.Collections.Generic;
+using HarmonyLib;
+using System;
 
 namespace CoolerStages
 {
@@ -30,7 +32,7 @@ namespace CoolerStages
         private static readonly Material ruinDetail = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_BoulderInfiniteTower.mat").WaitForCompletion();
         private static readonly Material ruinDetail2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_TempleProjectedInfiniteTower.mat").WaitForCompletion();
         private static readonly Material ruinDetail3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/rootjungle/matRJTree.mat").WaitForCompletion();
-
+        
         private static readonly Material smSimTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matSMTerrainInfiniteTower.mat").WaitForCompletion();
         private static readonly Material smSimDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matSMRockInfiniteTower.mat").WaitForCompletion();
         private static readonly Material smSimDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matTrimSheetMeadowRuinsProjectedInfiniteTower.mat").WaitForCompletion();
@@ -67,24 +69,19 @@ namespace CoolerStages
         private static readonly Material verdantDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC2/lakes/Assets/matTLGVine.mat").WaitForCompletion();
 
 
-        private static readonly List<Material[]> themeMaterials1 = new List<Material[]> {
-      new Material[] { verdantTerrainMat, verdantDetailMat, verdantDetailMat2, verdantDetailMat3},
-      new Material[] { smSimTerrainMat, smSimDetailMat, smSimDetailMat2, smSimtDetailMat3},
-      new Material[] {danTerrain, danDetail, danDetail2, danDetail3 },
-      new Material[] { ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3 },
-      new Material[] {dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 },
-      new Material[] {gpSimTerrainMat, gpSimDetailMat, gpSimDetailMat2, gpSimDetailMat3 },
-      new Material[] {gooSimTerrainMat, gooSimDetailMat, gooSimDetailMat2, gooSimDetailMat3 },
-      new Material[] {moonTerrainMat, moonDetailMat, moonDetailMat2, moonDetailMat3 },
-      new Material[] {bazaarTerrainMat, bazaarDetailMat, bazaarDetailMat2, bazaarDetailMat3 },
-    };
+        private List<Material[]> themeMaterials1 = new List<Material[]> { };
+        private List<Material[]> themeMaterials2 = new List<Material[]> { };
 
-        private static readonly List<Material[]> themeMaterials2 = new List<Material[]> {
-      new Material[] {verdantTerrainMat, verdantDetailMat, verdantDetailMat2, verdantDetailMat3 },
-      new Material[] {danTerrain, danDetail, danDetail2, danDetail3 },
-      new Material[] {ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3 },
-      new Material[] {dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 }
-    };
+        private Material[] lakes = new Material[] { verdantTerrainMat, verdantDetailMat, verdantDetailMat2, verdantDetailMat3 };
+        private Material[] skymeadow = new Material[] { smSimTerrainMat, smSimDetailMat, smSimDetailMat2, smSimtDetailMat3 };
+        private Material[] voidstage = new Material[] {danTerrain, danDetail, danDetail2, danDetail3 };
+        private Material[] ancientloft = new Material[] { ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3 };
+        private Material[] dampcave = new Material[] { dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 };
+        private Material[] golemplains = new Material[] { gpSimTerrainMat, gpSimDetailMat, gpSimDetailMat2, gpSimDetailMat3 };
+        private Material[] goolake = new Material[] { gooSimTerrainMat, gooSimDetailMat, gooSimDetailMat2, gooSimDetailMat3 };
+        private Material[] moon = new Material[] { moonTerrainMat, moonDetailMat, moonDetailMat2, moonDetailMat3 };
+        private Material[] bazaar = new Material[] { bazaarTerrainMat, bazaarDetailMat, bazaarDetailMat2, bazaarDetailMat3 };
+
 
         private System.Random rng;
         private static readonly string[] whitelistedMaps = new string[] {
@@ -107,8 +104,8 @@ namespace CoolerStages
       "skymeadow",
       "moon2",
       "village",
-      "villagenight"
-      //"helminthroost"
+      "villagenight",
+      "helminthroost"
 };
 
         public static ConfigEntry<bool> enableWinter;
@@ -117,6 +114,8 @@ namespace CoolerStages
         public static ConfigEntry<bool> enableAfternoon;
         public static ConfigEntry<bool> enableDrowned;
         public static ConfigEntry<bool> enableDreary;
+        public static ConfigEntry<bool> enableHelminthroost;
+        public static ConfigEntry<string> enabledTextures;
         private static ConfigFile CSConfig { get; set; }
 
         /*
@@ -145,12 +144,19 @@ namespace CoolerStages
         public void Awake()
         {
             CSConfig = new ConfigFile(Paths.ConfigPath + "\\com.Nuxlar.CoolerStages.cfg", true);
-            enableWinter = CSConfig.Bind<bool>("General", "Enable Winter Profile", true, "White and Foggy.");
-            enableFantasy = CSConfig.Bind<bool>("General", "Enable Fanstasy Profile", true, "Pink");
-            enableAuburn = CSConfig.Bind<bool>("General", "Enable Auburn Profile", true, "Red-ish Brown.");
-            enableAfternoon = CSConfig.Bind<bool>("General", "Enable Afternoon Profile", true, "Bright, Sunny Blue Skies.");
-            enableDrowned = CSConfig.Bind<bool>("General", "Enable Drowned Profile", true, "Soft Purple/Blue.");
-            enableDreary = CSConfig.Bind<bool>("General", "Enable Dreary Profile", true, "Dark, Midnight Blue.");
+            enableWinter = CSConfig.Bind<bool>("Profiles", "Enable Winter Profile", true, "White and Foggy.");
+            enableFantasy = CSConfig.Bind<bool>("Profiles", "Enable Fanstasy Profile", true, "Pink");
+            enableAuburn = CSConfig.Bind<bool>("Profiles", "Enable Auburn Profile", true, "Red-ish Brown.");
+            enableAfternoon = CSConfig.Bind<bool>("Profiles", "Enable Afternoon Profile", true, "Bright, Sunny Blue Skies.");
+            enableDrowned = CSConfig.Bind<bool>("Profiles", "Enable Drowned Profile", true, "Soft Purple/Blue.");
+            enableDreary = CSConfig.Bind<bool>("Profiles", "Enable Dreary Profile", true, "Dark, Midnight Blue.");
+            enableHelminthroost = CSConfig.Bind<bool>("Stages", "Enable Helminth Roost", true, "Dlc stage 5");
+
+            enabledTextures = CSConfig.Bind<string>("Textures", "Enabled Textures",
+                "void, ancientloft, skymeadow, dampcave, golemplains, goolake, moon, bazaar, lakes",
+                "To disable any of the Textures used, just remove them from this list. Need to have at least one of the following: void, ancientloft, dampcave, lakes");
+
+            parseTextureConfig();
 
             ruinTerrain.color = new Color(0.701f, 0.623f, 0.403f, 1);
             ruinTerrain.SetTexture("_SplatmapTex", null);
@@ -278,6 +284,67 @@ namespace CoolerStages
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
         }
 
+        private void parseTextureConfig()
+        {
+            string configString = enabledTextures.Value;
+
+            if (string.IsNullOrEmpty(configString))
+            {
+                throw new ArgumentException("You removed to many textures from Cooler Stages. Why are you even using it at this point?");
+            }
+
+            void matchItem(string item)
+            {
+                switch (item)
+                {
+                    case "void":
+                        themeMaterials1.Add(voidstage);
+                        themeMaterials2.Add(voidstage);
+                        break;
+                    case "ancientloft":
+                        themeMaterials1.Add(ancientloft);
+                        themeMaterials2.Add(ancientloft);
+                        break;
+                    case "skymeadow":
+                        themeMaterials1.Add(skymeadow);
+                        break;
+                    case "dampcave":
+                        themeMaterials1.Add(dampcave);
+                        themeMaterials2.Add(dampcave);
+                        break;
+                    case "golemplains":
+                        themeMaterials1.Add(golemplains);
+                        break;
+                    case "goolake":
+                        themeMaterials1.Add(goolake);
+                        break;
+                    case "moon":
+                        themeMaterials1.Add(moon);
+                        break;
+                    case "bazaar":
+                        themeMaterials1.Add(bazaar);
+                        break;
+                    case "lakes":
+                        themeMaterials1.Add(lakes);
+                        themeMaterials2.Add(lakes);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            configString.Split(',').Select(item => item.Trim()).Where(item => !string.IsNullOrWhiteSpace(item)).Do(item => matchItem(item));
+
+            Debug.LogWarning($"Number of themeMaterials1 {themeMaterials1.Count}");
+            Debug.LogWarning($"Number of themeMaterials1 {themeMaterials2.Count}");
+
+            if (themeMaterials1.Count == 0 || themeMaterials2.Count == 0)
+            {
+                throw new ArgumentException("You removed to many textures from Cooler Stages. Why are you even using it at this point?");
+            }
+
+        }
+
         private void SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
             
@@ -285,9 +352,10 @@ namespace CoolerStages
             rng = new System.Random(seed);
             string sceneName = SceneManager.GetActiveScene().name;
             SceneInfo currentScene = SceneInfo.instance;
+            if ((!enableHelminthroost.Value && sceneName == "helminthroost") || sceneName == "moon")
+                return;
             if (currentScene && whitelistedMaps.Contains(sceneName))
             {
-                Debug.LogWarning("In whitelisted Map");
                 PostProcessVolume volume = currentScene.GetComponent<PostProcessVolume>();
                 if (!volume || !volume.isActiveAndEnabled)
                 {
@@ -334,13 +402,13 @@ namespace CoolerStages
 
                     if (enableWinter.Value)
                         profiles.Add(pp1);
-                    if (enableFantasy.Value)
+                    if (enableFantasy.Value && !(sceneName == "helminthroost"))
                         profiles.Add(pp2);
                     if (enableAuburn.Value)
                         profiles.Add(pp3);
-                    if (enableAfternoon.Value)
+                    if (enableAfternoon.Value && !(sceneName == "helminthroost"))
                         profiles.Add(pp4);
-                    if (enableDrowned.Value)
+                    if (enableDrowned.Value && !(sceneName == "helminthroost"))
                         profiles.Add(pp5);
                     if (enableDreary.Value)
                         profiles.Add(pp6);
@@ -517,8 +585,15 @@ namespace CoolerStages
                                 Stage3.Acres(testTerrainMat, testDetailMat, testDetailMat2);
                                 break;
                             case "sulfurpools":
-                                GameObject.Find("SPCavePP").SetActive(false);
-                                GameObject.Find("CameraRelative").transform.GetChild(1).gameObject.SetActive(false);
+                                GameObject spcavepp = GameObject.Find("SPCavePP");
+                                if (spcavepp) 
+                                    spcavepp.SetActive(false);
+                                GameObject camerarelativesmthing = GameObject.Find("CameraRelative");
+                                if (camerarelativesmthing)
+                                    try
+                                    {
+                                        camerarelativesmthing.transform.GetChild(1).gameObject.SetActive(false);
+                                    } catch { Debug.LogError("Please report to the mod maintainer on Thunderstore."); }
                                 Stage3.Pools(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt);
                                 break;
                             case "rootjungle":
@@ -540,6 +615,8 @@ namespace CoolerStages
                                     GameObject.Find("DCPPInTunnels").SetActive(false);
                                 break;
                             case "helminthroost":
+                                //Afternoon very blue
+                                //drowned awful purple
                                 Stage5.Roost(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2, mainLight.color);
                                 break;
                             case "skymeadow":
@@ -587,7 +664,7 @@ namespace CoolerStages
 
         public static void AbyssalLighting(Color color)
         {
-            Light[] lightList = Object.FindObjectsOfType(typeof(Light)) as Light[];
+            Light[] lightList = UnityEngine.Object.FindObjectsOfType(typeof(Light)) as Light[];
             foreach (Light light in lightList)
             {
                 GameObject lightBase = light.gameObject;

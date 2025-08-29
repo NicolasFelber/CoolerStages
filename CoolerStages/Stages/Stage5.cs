@@ -129,45 +129,53 @@ namespace CoolerStages
                     {
                         if (meshBase.name.Contains("HRTerrain") && !meshBase.name.Contains("Lava"))
                             renderer.sharedMaterial = terrainMat;
-                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial || meshBase.name.Contains("Weed") && renderer.sharedMaterial)
+                        else if (meshBase.name.Contains("Grass") || meshBase.name.Contains("Weed"))
                         {
                             GameObject.Destroy(meshBase);
                         }
-                        if (meshBase.name.Contains("HRRock") && renderer.sharedMaterial)
+                        else if (meshBase.name.Contains("HRRock") && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat;
-                        if (meshBase.name.Contains("HRGroundCover") && renderer.sharedMaterial)
+                        else if (meshBase.name.Contains("HRGroundCover") && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat3;
+                        else if (meshBase.name.Contains("Worm") && renderer.sharedMaterial)
+                            renderer.sharedMaterial = detailMat;
                     }
                 }
 
-                MeshRenderer building1 = GameObject.Find("HRSection1").gameObject.GetComponent<MeshRenderer>();
-                if (building1 != null)
+                GameObject lava_light = GameObject.Find("Lava Spot Light").gameObject;
+                if (lava_light != null)
                 {
-                    building1.sharedMaterials[0] = detailMat;
-                    building1.sharedMaterials[1] = detailMat2;
-                    building1.sharedMaterials[2] = detailMat3;
+                    lava_light.GetComponent<Light>().intensity = 0f;
                 }
-                MeshRenderer building2 = GameObject.Find("HRSection1").gameObject.GetComponent<MeshRenderer>();
-                if (building2 != null)
-                {
-                    building2.sharedMaterials[0] = detailMat;
-                    building2.sharedMaterials[1] = detailMat2;
-                    building2.sharedMaterials[2] = detailMat3;
-                }
-                MeshRenderer building3 = GameObject.Find("HRSection1").gameObject.GetComponent<MeshRenderer>();
-                if (building3 != null)
-                {
-                    building3.sharedMaterials[0] = detailMat;
-                    building3.sharedMaterials[1] = detailMat2;
-                    building3.sharedMaterials[2] = detailMat3;
-                }
-                MeshRenderer building4 = GameObject.Find("HRSection4").gameObject.GetComponent<MeshRenderer>();
-                if (building4 != null)
-                {
-                    building4.sharedMaterials[0] = detailMat;
-                    building4.sharedMaterials[1] = detailMat2;
-                    building4.sharedMaterials[2] = detailMat3;
-                }
+
+                //MeshRenderer building1 = GameObject.Find("HRSection1").gameObject.GetComponent<MeshRenderer>();
+                //if (building1 != null)
+                //{
+                //    building1.sharedMaterials[0] = detailMat;
+                //    building1.sharedMaterials[1] = detailMat2;
+                //    building1.sharedMaterials[2] = detailMat3;
+                //}
+                //MeshRenderer building2 = GameObject.Find("HRSection1").gameObject.GetComponent<MeshRenderer>();
+                //if (building2 != null)
+                //{
+                //    building2.sharedMaterials[0] = detailMat;
+                //    building2.sharedMaterials[1] = detailMat2;
+                //    building2.sharedMaterials[2] = detailMat3;
+                //}
+                //MeshRenderer building3 = GameObject.Find("HRSection1").gameObject.GetComponent<MeshRenderer>();
+                //if (building3 != null)
+                //{
+                //    building3.sharedMaterials[0] = detailMat;
+                //    building3.sharedMaterials[1] = detailMat2;
+                //    building3.sharedMaterials[2] = detailMat3;
+                //}
+                //MeshRenderer building4 = GameObject.Find("HRSection4").gameObject.GetComponent<MeshRenderer>();
+                //if (building4 != null)
+                //{
+                //    building4.sharedMaterials[0] = detailMat;
+                //    building4.sharedMaterials[1] = detailMat2;
+                //    building4.sharedMaterials[2] = detailMat3;
+                //}
 
                 GameObject camparticles = GameObject.Find("CAMERA PARTICLES: AshParticles");
                 if (camparticles != null) { camparticles.SetActive(false); }
