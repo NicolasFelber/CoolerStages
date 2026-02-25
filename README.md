@@ -37,6 +37,18 @@ Stage materials and post process profile print to the console on stage load. `al
 
 ## Changelog
 
+**2.2.4**
+
+- Add the option to turn off specific textures
+
+**2.2.0**
+
+- Add Helminth Hatchery to the available stages. Also includes option to switch it off.
+
+**2.1.0**
+
+- Sync Randomization for Multiplayer
+
 **2.0.0**
 
 - Fix for SoTS
