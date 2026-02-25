@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "2.0.0")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "2.2.5")]
 
   public class CoolerStages : BaseUnityPlugin
   {
@@ -128,9 +128,9 @@ namespace CoolerStages
       _RedChannelTopTex RoR2/DLC1/ancientloft/texAncientLoft_BaseWhiteBrick.png
     */
 
-    private Texture2D tlCliffTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC2/lakes/Assets/texTLTerrainCliff.tga").WaitForCompletion();
-    private Texture2D tlDirtTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC2/lakes/Assets/texTLTerrainDirt.tga").WaitForCompletion();
-    private Texture2D rockNormal = Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/texNormalBumpyRock.jpg").WaitForCompletion();
+        private Texture2D tlCliffTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC2/lakes/Assets/texTLTerrainCliff.tga").WaitForCompletion();
+        private Texture2D tlDirtTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC2/lakes/Assets/texTLTerrainDirt.tga").WaitForCompletion();
+        private Texture2D rockNormal = Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/TiledTextures/texNormalBumpyRock.jpg").WaitForCompletion();
 
     PostProcessProfile pp1 = ScriptableObject.CreateInstance<PostProcessProfile>();
     PostProcessProfile pp2 = ScriptableObject.CreateInstance<PostProcessProfile>();
